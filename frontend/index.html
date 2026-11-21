@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tải báo cáo đồ án, kiểm tra nội dung tương đồng và đối chiếu với kho tài liệu tham chiếu.">
+  <title>Đối chiếu báo cáo đồ án</title>
+  <link rel="stylesheet" href="/static/styles.css?v=11">
+  <link rel="stylesheet" href="/static/home.css?v=11">
+  <link rel="stylesheet" href="/static/review.css?v=11">
+  <link rel="stylesheet" href="/static/auth.css?v=11">
+  <script src="/static/app.js?v=11" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#trang-chu">Đối chiếu<span class="brand-sub">báo cáo đồ án</span></a>
+
+      <nav class="public-nav" id="public-nav" aria-label="Trang chủ" hidden>
+        <a class="public-link" href="#faq">Câu hỏi thường gặp</a>
+        <a class="button secondary" href="#dang-nhap">Đăng nhập</a>
+        <a class="button primary" href="#dang-ky" id="nav-register">Đăng ký</a>
+      </nav>
+
+      <nav class="main-nav" id="main-nav" aria-label="Chức năng chính" hidden>
+        <a href="#kiem-tra" data-view="check">Kiểm tra</a>
+        <a href="#lich-su" data-view="history">Lịch sử</a>
+        <a href="#kho" data-view="references" id="nav-references" hidden>Kho tham chiếu</a>
+        <a href="#nguoi-dung" data-view="users" id="nav-users" hidden>Người dùng</a>
+      </nav>
+      <div class="user-box" id="user-box" hidden>
+        <a class="user-name" id="user-name" href="#tai-khoan" data-view="account"></a><span class="user-role" id="user-role"></span>
+        <button class="button quiet" id="logout" type="button">Đăng xuất</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="setup" class="banner warning" hidden>
+      <strong>Chưa kết nối được PostgreSQL</strong>
+      <p id="setup-detail"></p>
+      <ol><li>Sao chép <code>.env.example</code> thành <code>.env</code>, nhập tên database, tài khoản và mật khẩu.</li><li>Chạy <code>python -m app.db init</code> để tạo bảng dữ liệu.</li><li>Khởi động lại web rồi bấm “Làm mới dữ liệu” ở cuối trang. Xem <code>docs/WEB_POSTGRESQL.md</code> để tạo database.</li></ol>
+    </div>
+
+    <!-- ===================== Khu vực công khai (chưa đăng nhập / vừa đăng xuất) ===================== -->
+    <div id="public-view" hidden>
+      <section id="home-view" aria-labelledby="home-title" hidden>
+        <div class="hero">
+          <div class="hero-copy">
+            <h1 id="home-title" tabindex="-1">Đối chiếu báo cáo đồ án với kho tài liệu của khoa</h1>
+            <p class="hero-lead">Tải báo cáo PDF hoặc DOCX lên. Hệ thống chia báo cáo thành từng đoạn, so với các tài liệu đã lưu trong kho tham chiếu và đánh dấu chỗ giống nhau để người thẩm định đọc và kết luận.</p>
+            <p class="hero-actions">
+              <a class="button primary large" href="#dang-nhap">Đăng nhập</a>
+              <a class="button secondary large" href="#dang-ky" id="hero-register">Đăng ký tài khoản</a>
+            </p>
+            <ul class="tick-list">
+              <li>Hỗ trợ PDF và DOCX; PDF ảnh được OCR nếu máy chủ bật OCR</li>
+              <li>So khớp từ vựng, hoặc ngữ nghĩa bằng SBERT khi được bật</li>
+              <li>Xem hai đoạn cạnh nhau, cụm từ trùng nguyên văn được tô</li>
+              <li>Người dùng chỉ xem bài của mình và không truy cập kho tham chiếu</li>
+            </ul>
+          </div>
+          <figure class="sample">
+            <figcaption>Ví dụ minh họa với nội dung giả</figcaption>
+            <p class="sample-bar"><strong>Trùng nguyên văn 12 / 30 từ (40%)</strong><span>so với Nguồn 1</span></p>
+            <div class="sample-cols">
+              <div><h2>Báo cáo đang kiểm tra</h2><p>Học máy là một nhánh của trí tuệ nhân tạo, <mark>trong đó máy tính tự rút ra quy luật từ dữ liệu</mark> và cải thiện kết quả theo thời gian.</p></div>
+              <div><h2>Nguồn 1</h2><p>Phần này trình bày các phương pháp, <mark>trong đó máy tính tự rút ra quy luật từ dữ liệu</mark> thay vì được lập trình từng quy tắc.</p></div>
+            </div>
+          </figure>
+        </div>
+
+        <section class="home-section" aria-labelledby="how-title">
+          <h2 id="how-title">Cách hoạt động</h2>
+          <ol class="steps">
+            <li><h3>Tải báo cáo</h3><p>Chọn tệp PDF hoặc DOCX, tối đa 20 MB. Báo cáo không tự được thêm vào kho tham chiếu.</p></li>
+            <li><h3>Hệ thống đối chiếu</h3><p>Nội dung được tách thành đoạn, bỏ mục lục và phần mẫu, rồi so với từng đoạn trong kho. Các đoạn liền nhau cùng nguồn được gộp thành một cảnh báo.</p></li>
+            <li><h3>Đọc kết quả</h3><p>Xem tỷ lệ nội dung được cảnh báo, danh sách nguồn trùng nhiều nhất và đối chiếu hai đoạn cạnh nhau trước khi kết luận.</p></li>
+          </ol>
+        </section>
+
+        <section class="home-section" aria-labelledby="roles-title">
+          <h2 id="roles-title">Ai xem được gì</h2>
+          <div class="table-scroll">
+            <table class="data-table">
+              <caption class="sr-only">Quyền truy cập theo vai trò</caption>
+              <thead><tr><th scope="col">Vai trò</th><th scope="col">Bài báo cáo và kết quả</th><th scope="col">Kho tham chiếu</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Người dùng</th><td>Chỉ của chính mình</td><td>Không truy cập. Kết quả vẫn hiện đoạn trùng, tên tệp nguồn được che</td></tr>
+                <tr><th scope="row">Quản trị</th><td>Của tất cả mọi người</td><td>Xem, tải, thêm tài liệu; quản lý tài khoản</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="home-section" id="faq" aria-labelledby="faq-title">
+          <h2 id="faq-title" tabindex="-1">Câu hỏi thường gặp</h2>
+          <div class="faq">
+            <details open>
+              <summary>Ai nên dùng hệ thống này?</summary>
+              <div class="faq-body">
+                <ul>
+                  <li>Người dùng (sinh viên, học viên) muốn tự kiểm tra báo cáo trước khi nộp để sửa chỗ trích dẫn chưa đúng.</li>
+                  <li>Quản trị viên (ví dụ giảng viên phụ trách) quản lý kho tài liệu tham chiếu và tài khoản, đồng thời xem được kết quả của mọi người để thẩm định.</li>
+                </ul>
+              </div>
+            </details>
+            <details>
+              <summary>Nguồn đối chiếu đến từ đâu?</summary>
+              <div class="faq-body"><p>Chỉ từ kho tham chiếu do quản trị viên thêm vào, ví dụ các báo cáo của khóa trước. Hệ thống không so với toàn bộ Internet. Nếu khoa cấu hình khóa tìm kiếm Internet, hệ thống tìm thêm các trang nghi vấn, tải toàn văn và lưu vào cơ sở dữ liệu để đối chiếu; trang đó được đánh dấu “Nguồn Internet” kèm địa chỉ gốc và được dùng lại ở các lần kiểm tra sau.</p></div>
+            </details>
+            <details>
+              <summary>Tài liệu tôi tải lên có được bảo vệ không?</summary>
+              <div class="faq-body"><p>Bài của bạn chỉ bạn và quản trị viên xem được. Bài không tự được thêm vào kho tham chiếu. Hệ thống đang ở bản thử nghiệm chạy cục bộ nên chưa nên dùng cho tài liệu mật.</p></div>
+            </details>
+            <details>
+              <summary>“Nội dung được cảnh báo” có phải tỷ lệ đạo văn không?</summary>
+              <div class="faq-body"><p>Không. Đó là tỷ lệ ký tự thuộc các đoạn có cảnh báo trên phần nội dung đủ điều kiện đối chiếu. Đoạn trùng có thể là trích dẫn đúng quy định, định nghĩa chung hoặc văn bản mẫu. Chỉ người thẩm định sau khi đọc nội dung mới kết luận được.</p><p>Ngưỡng đang dùng là giá trị thử nghiệm, chưa hiệu chỉnh trên tập dữ liệu gán nhãn, nên kết quả có thể bỏ sót hoặc cảnh báo thừa.</p></div>
+            </details>
+            <details>
+              <summary>So khớp từ vựng và ngữ nghĩa khác nhau thế nào?</summary>
+              <div class="faq-body"><p>So khớp từ vựng tìm các đoạn dùng cùng từ và cụm từ, nên bắt tốt phần chép nguyên văn. So khớp ngữ nghĩa (SBERT) so ý nghĩa, nên có thể thấy cả đoạn viết lại bằng từ khác, nhưng cần cài thêm mô hình và chạy chậm hơn. Màn đối chiếu tô các cụm từ trùng nguyên văn; nếu ít cụm trùng mà điểm cao thì đó thường là đoạn diễn đạt lại.</p></div>
+            </details>
+            <details>
+              <summary>Vì sao tôi thấy đoạn trùng nhưng tên tệp nguồn bị che?</summary>
+              <div class="faq-body"><p>Người dùng không được truy cập kho tham chiếu vì đó là bài của người khác. Bạn vẫn xem được đoạn trích để biết chỗ cần sửa, còn tên tệp được thay bằng “Nguồn 1”, “Nguồn 2”. Quản trị viên thấy tên tệp đầy đủ.</p></div>
+            </details>
+            <details>
+              <summary>Tôi quên mật khẩu thì làm thế nào?</summary>
+              <div class="faq-body"><p>Hệ thống chưa gửi email nên chưa có chức năng tự đặt lại. Hãy liên hệ quản trị viên để được đặt mật khẩu mới. Khi đã đăng nhập, bạn tự đổi mật khẩu ở mục Tài khoản.</p></div>
+            </details>
+          </div>
+        </section>
+      </section>
+
+      <section class="auth-page" id="login-view" hidden aria-labelledby="login-title">
+        <h1 id="login-title" tabindex="-1">Đăng nhập</h1>
+        <p class="lead">Dùng tài khoản của bạn để kiểm tra báo cáo và xem lịch sử.</p>
+        <form id="login-form" autocomplete="on">
+          <div class="field"><label for="login-email">Email</label><input id="login-email" name="email" type="email" required autocomplete="username" maxlength="254"></div>
+          <div class="field"><label for="login-password">Mật khẩu</label><input id="login-password" name="password" type="password" required autocomplete="current-password" maxlength="200"></div>
+          <label class="check-row"><input type="checkbox" class="show-password" data-targets="#login-password"> Hiện mật khẩu</label>
+          <p id="login-error" class="form-error" role="alert"></p>
+          <button class="button primary large" id="login-button" type="submit">Đăng nhập</button>
+        </form>
+        <p class="auth-alt" id="login-register-line">Chưa có tài khoản? <a href="#dang-ky">Đăng ký</a></p>
+        <p class="auth-alt muted">Quên mật khẩu? Liên hệ quản trị viên để được đặt lại.</p>
+        <p class="auth-alt"><a href="#trang-chu">Về trang chủ</a></p>
+      </section>
+
+      <section class="auth-page" id="register-view" hidden aria-labelledby="register-title">
+        <h1 id="register-title" tabindex="-1">Đăng ký tài khoản</h1>
+        <p class="lead">Tài khoản tự đăng ký luôn là tài khoản người dùng thường, chỉ xem được bài của chính mình. Tài khoản quản trị do quản trị viên hiện có tạo.</p>
+        <p class="banner" id="register-disabled" hidden>Hệ thống đang tắt tự đăng ký. Hãy nhờ quản trị viên tạo tài khoản cho bạn.</p>
+        <form id="register-form" autocomplete="on">
+          <div class="field"><label for="reg-name">Họ và tên</label><input id="reg-name" name="name" type="text" required autocomplete="name" maxlength="120"></div>
+          <div class="field"><label for="reg-email">Email</label><input id="reg-email" name="email" type="email" required autocomplete="username" maxlength="254"></div>
+          <div class="field"><label for="reg-password">Mật khẩu</label><input id="reg-password" name="password" type="password" required autocomplete="new-password" maxlength="72" aria-describedby="reg-password-help"><p class="help" id="reg-password-help">Từ 10 ký tự, không trùng email, không quá dễ đoán.</p></div>
+          <div class="field"><label for="reg-confirm">Nhập lại mật khẩu</label><input id="reg-confirm" name="confirm" type="password" required autocomplete="new-password" maxlength="72"></div>
+          <label class="check-row"><input type="checkbox" class="show-password" data-targets="#reg-password,#reg-confirm"> Hiện mật khẩu</label>
+          <p id="register-error" class="form-error" role="alert"></p>
+          <button class="button primary large" id="register-button" type="submit">Tạo tài khoản</button>
+        </form>
+        <p class="auth-alt">Đã có tài khoản? <a href="#dang-nhap">Đăng nhập</a></p>
+        <p class="auth-alt"><a href="#trang-chu">Về trang chủ</a></p>
+      </section>
+
+      <footer class="footer public-footer">
+        <p>Hệ thống tự động kiểm tra và cảnh báo trùng lặp trong báo cáo đồ án. Khoa Công nghệ thông tin, Đại học Đà Lạt. Bản thử nghiệm chạy cục bộ.</p>
+        <p>Điểm tương đồng chỉ hỗ trợ người thẩm định, không tự kết luận đạo văn.</p>
+      </footer>
+    </div>
+
+    <!-- ===================== Khu vực sau đăng nhập ===================== -->
+    <div id="app-view" hidden>
+      <div id="notice" class="banner" role="status" aria-live="polite" hidden></div>
+
+      <section class="view" id="view-check" aria-labelledby="title-check">
+        <h1 id="title-check" tabindex="-1">Kiểm tra báo cáo</h1>
+        <p class="lead">Chọn báo cáo cần kiểm tra. Hệ thống đối chiếu với các tài liệu trong kho tham chiếu và đánh dấu đoạn tương đồng.</p>
+        <form id="check-form" class="upload-row">
+          <label class="dropzone" id="dropzone" for="check-file">
+            <span class="dz-text"><strong id="file-label">Chọn hoặc kéo thả báo cáo vào đây</strong><span class="file-hint" id="file-hint">PDF hoặc DOCX, tối đa 20 MB</span></span>
+            <span class="dz-action" aria-hidden="true">Chọn tệp</span>
+            <input id="check-file" name="file" type="file" accept=".pdf,.docx" required>
+          </label>
+          <input type="hidden" name="engine" value="semantic">
+          <input type="hidden" name="threshold" value="0.68">
+          <button class="button primary" id="check-button" type="submit" disabled>Kiểm tra</button>
+        </form>
+        <p class="field-note">Báo cáo này không tự được thêm vào kho tham chiếu. Ngưỡng đang dùng là giá trị thử nghiệm, chưa hiệu chỉnh trên tập dữ liệu gán nhãn.</p>
+
+        <section class="result-panel" id="result-section" aria-labelledby="result-title">
+          <div class="result-heading">
+            <div><h2 id="result-title">Kết quả đối chiếu</h2><p id="result-subtitle" class="muted"></p></div>
+            <button id="export" class="button secondary" type="button" hidden>Tải kết quả (JSON)</button>
+          </div>
+          <div id="result-empty" class="result-empty"><p>Chưa có kết quả. Chọn một báo cáo ở trên rồi bấm “Kiểm tra”, hoặc mở một kết quả trong mục Lịch sử.</p></div>
+          <div id="result" hidden></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-history" aria-labelledby="title-history" hidden>
+        <h1 id="title-history" tabindex="-1">Lịch sử kiểm tra</h1>
+        <p class="lead"><span id="stat-checks">—</span> lần kiểm tra đã lưu. Hiển thị tối đa 100 lần gần nhất.</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption class="sr-only">Các lần kiểm tra đã lưu</caption>
+            <thead><tr><th scope="col">Báo cáo</th><th scope="col">Thời gian</th><th scope="col">Phương pháp</th><th scope="col" class="num">Nội dung được cảnh báo</th><th scope="col"><span class="sr-only">Hành động</span></th></tr></thead>
+            <tbody id="history"><tr><td colspan="5" class="empty">Chưa có lần kiểm tra nào.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="view-references" aria-labelledby="title-references" hidden>
+        <h1 id="title-references" tabindex="-1">Kho tham chiếu</h1>
+        <p class="lead"><span id="stat-references">—</span> tài liệu, <span id="stat-chunks">—</span> đoạn. Đây là các nguồn mà mọi báo cáo được đối chiếu.</p>
+        <form id="reference-form" class="upload-row">
+          <div class="file-pick">
+            <label class="file-pick-label" for="reference-file"><span class="button secondary" aria-hidden="true">Chọn tệp</span><span class="file-pick-name" id="reference-file-name">Chưa chọn tệp (PDF hoặc DOCX)</span></label>
+            <input id="reference-file" name="file" type="file" accept=".pdf,.docx" required>
+          </div>
+          <button class="button primary" id="reference-button" type="submit" disabled>Thêm vào kho</button>
+        </form>
+        <p class="field-note" id="reference-note">Chỉ thêm tài liệu bạn được phép sử dụng. Hiển thị 100 tài liệu mới nhất.</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption class="sr-only">Tài liệu trong kho tham chiếu</caption>
+            <thead><tr><th scope="col">Tệp</th><th scope="col">Loại</th><th scope="col" class="num">Số đoạn</th><th scope="col" class="num">Dung lượng</th><th scope="col"><span class="sr-only">Hành động</span></th></tr></thead>
+            <tbody id="reference-list"><tr><td colspan="5" class="empty">Chưa có tài liệu tham chiếu. Thêm báo cáo cũ để bắt đầu.</td></tr></tbody>
+          </table>
+        </div>
+
+        <h2 class="section-gap" id="title-web">Nguồn Internet đã lưu</h2>
+        <p class="lead"><span id="stat-web">—</span> trang. Khi kiểm tra, các trang Internet nghi vấn được tải toàn văn và tự lưu vào cơ sở dữ liệu; lần kiểm tra sau dùng lại bản đã lưu mà không cần tải lại. Chỉ quản trị xem và xóa được danh sách này.</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption class="sr-only">Trang Internet đã lưu trong cơ sở dữ liệu</caption>
+            <thead><tr><th scope="col">Trang</th><th scope="col">Lưu lúc</th><th scope="col" class="num">Số đoạn</th><th scope="col"><span class="sr-only">Hành động</span></th></tr></thead>
+            <tbody id="web-list"><tr><td colspan="4" class="empty">Chưa có trang Internet nào được lưu.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="view-users" aria-labelledby="title-users" hidden>
+        <h1 id="title-users" tabindex="-1">Người dùng</h1>
+        <p class="lead">Tạo tài khoản, đổi vai trò, khóa tài khoản và đặt lại mật khẩu. Đổi vai trò, khóa hoặc đặt lại mật khẩu sẽ đăng xuất người đó ngay.</p>
+        <h2>Tài khoản</h2>
+        <form id="user-form" class="inline-form">
+          <div class="field"><label for="new-email">Email</label><input id="new-email" type="email" required autocomplete="off" maxlength="254"></div>
+          <div class="field"><label for="new-name">Họ tên</label><input id="new-name" type="text" required maxlength="120"></div>
+          <div class="field"><label for="new-password">Mật khẩu ban đầu</label><input id="new-password" type="password" required autocomplete="new-password" maxlength="72" aria-describedby="password-help"></div>
+          <div class="field"><label for="new-role">Vai trò</label><select id="new-role"><option value="user">Người dùng</option><option value="admin">Quản trị</option></select></div>
+          <button class="button secondary" type="submit">Tạo tài khoản</button>
+        </form>
+        <p class="field-note" id="password-help">Mật khẩu từ 10 ký tự, không trùng email, không quá dễ đoán.</p>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption class="sr-only">Danh sách tài khoản</caption>
+            <thead><tr><th scope="col">Họ tên</th><th scope="col">Email</th><th scope="col">Vai trò</th><th scope="col">Trạng thái</th><th scope="col"><span class="sr-only">Hành động</span></th></tr></thead>
+            <tbody id="user-table"></tbody>
+          </table>
+        </div>
+        <h2 class="section-gap">Đặt lại mật khẩu</h2>
+        <form id="reset-form" class="inline-form">
+          <div class="field"><label for="reset-user">Tài khoản</label><select id="reset-user" required></select></div>
+          <div class="field"><label for="reset-password">Mật khẩu mới</label><input id="reset-password" type="password" required autocomplete="new-password" maxlength="72"></div>
+          <button class="button secondary" type="submit">Đặt lại</button>
+        </form>
+        <p class="field-note">Dùng khi người dùng quên mật khẩu. Hãy gửi mật khẩu mới cho họ qua kênh riêng và nhắc họ tự đổi ở mục Tài khoản.</p>
+      </section>
+
+      <section class="view" id="view-account" aria-labelledby="title-account" hidden>
+        <h1 id="title-account" tabindex="-1">Tài khoản</h1>
+        <dl class="account-info">
+          <div><dt>Họ và tên</dt><dd id="account-name"></dd></div>
+          <div><dt>Email</dt><dd id="account-email"></dd></div>
+          <div><dt>Vai trò</dt><dd id="account-role"></dd></div>
+        </dl>
+        <h2>Đổi mật khẩu</h2>
+        <form id="password-form" class="stack-form">
+          <div class="field"><label for="pw-current">Mật khẩu hiện tại</label><input id="pw-current" type="password" required autocomplete="current-password" maxlength="200"></div>
+          <div class="field"><label for="pw-new">Mật khẩu mới</label><input id="pw-new" type="password" required autocomplete="new-password" maxlength="72" aria-describedby="pw-help"><p class="help" id="pw-help">Từ 10 ký tự, không trùng email, khác mật khẩu hiện tại.</p></div>
+          <div class="field"><label for="pw-confirm">Nhập lại mật khẩu mới</label><input id="pw-confirm" type="password" required autocomplete="new-password" maxlength="72"></div>
+          <label class="check-row"><input type="checkbox" class="show-password" data-targets="#pw-current,#pw-new,#pw-confirm"> Hiện mật khẩu</label>
+          <p id="password-error" class="form-error" role="alert"></p>
+          <p id="password-ok" class="form-ok" role="status"></p>
+          <button class="button primary" id="password-button" type="submit">Đổi mật khẩu</button>
+        </form>
+        <p class="field-note">Đổi mật khẩu sẽ đăng xuất bạn khỏi các thiết bị khác. Thiết bị đang dùng vẫn giữ phiên.</p>
+      </section>
+
+      <footer class="footer">
+        <p>Điểm tương đồng chỉ hỗ trợ người thẩm định, không tự kết luận đạo văn. PDF ảnh cần OCR trước khi sử dụng.</p>
+        <p class="footer-status"><span class="connection" id="connection"><span class="dot" aria-hidden="true"></span>Đang kết nối…</span><span aria-hidden="true">·</span><span>Bản thử nghiệm cục bộ</span><span aria-hidden="true">·</span><button id="refresh" class="link-button" type="button">Làm mới dữ liệu</button></p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

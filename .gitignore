@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+.env
+.env.*
+!.env.example
+storage/
+.pytest_cache/
+test-results/
+*.log
+
+# Local datasets, uploaded documents, and generated artifacts
+Data/
+request/
+output/
+vector_store.index
+vector_store.meta.pkl
+.pptx-build/
+.pptx-inspect/

@@ -1,0 +1,82 @@
+/* Khu vực công khai: trang chủ, đăng nhập, đăng ký; và mục Tài khoản.
+   Cùng hệ thiết kế với styles.css (không bóng đổ, không gradient, màu chỉ mang ý nghĩa). */
+
+/* ---------- Thanh trên cùng khi chưa đăng nhập ---------- */
+.public-nav { margin-left: auto; display: flex; align-items: center; gap: var(--s3); padding: var(--s2) 0; }
+.public-link { font-size: 15px; font-weight: 500; padding: var(--s2) var(--s2); }
+.public-nav .button { min-height: 40px; }
+
+#public-view { max-width: 1120px; margin: 0 auto; }
+.button.large { min-height: 48px; padding: 0 var(--s5); font-size: 16px; }
+
+/* ---------- Trang chủ ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: var(--s7); align-items: start; padding: var(--s6) 0 var(--s7); }
+.hero h1 { font-size: clamp(30px, 1.2rem + 2.2vw, 42px); line-height: 1.18; letter-spacing: -.01em; margin-bottom: var(--s4); max-width: 18em; }
+.hero-lead { font-size: 18px; line-height: 1.6; color: var(--ink-2); max-width: 56ch; margin-bottom: var(--s5); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--s3); margin: 0 0 var(--s5); }
+.tick-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); max-width: 56ch; }
+.tick-list li { position: relative; padding-left: var(--s5); font-size: 15px; }
+.tick-list li::before { content: ""; position: absolute; left: 4px; top: .35em; width: 6px; height: 11px; border-right: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(45deg); }
+
+.sample { margin: var(--s2) 0 0; padding: var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); }
+.sample figcaption { font-size: 13px; color: var(--ink-2); margin-bottom: var(--s3); }
+.sample-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s2); padding-bottom: var(--s3); margin: 0 0 var(--s3); border-bottom: 1px solid var(--line); font-size: 14px; }
+.sample-bar span { color: var(--ink-2); }
+.sample-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.sample h2 { font-size: 14px; font-weight: 500; color: var(--ink-2); margin: 0 0 var(--s2); }
+.sample p { font-family: var(--font-doc); font-size: 16px; line-height: 1.65; margin: 0; }
+
+.home-section { padding: var(--s6) 0 var(--s7); border-top: 1px solid var(--line); }
+.home-section > h2 { font-size: 24px; margin-bottom: var(--s5); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s5); counter-reset: step; }
+.steps li { counter-increment: step; border-top: 2px solid var(--ink); padding-top: var(--s3); }
+.steps h3 { font-size: 17px; margin-bottom: var(--s2); }
+.steps h3::before { content: counter(step) ". "; font-variant-numeric: tabular-nums; }
+.steps p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.home-section .data-table th[scope="row"] { text-align: left; color: var(--ink); font-size: 15px; white-space: nowrap; }
+.home-section .data-table td { font-size: 15px; font-weight: 400; max-width: none; }
+.home-section .table-scroll { max-width: 880px; }
+
+.faq { max-width: 820px; border-top: 1px solid var(--line-strong); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); min-height: 56px; padding: var(--s3) var(--s1); cursor: pointer; font-weight: 500; font-size: 16px; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 8px; height: 8px; margin: -4px var(--s1) 0 0; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: rotate(45deg); transition: transform .15s; }
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
+.faq summary:hover { background: #fafaf8; }
+.faq summary:focus-visible { outline-offset: -2px; }
+.faq-body { padding: 0 var(--s1) var(--s4); max-width: 68ch; font-size: 15px; }
+.faq-body p { color: var(--ink); }
+.faq-body ul { margin: 0 0 var(--s2); padding-left: var(--s5); }
+.faq-body li + li { margin-top: var(--s1); }
+.public-footer { margin-top: var(--s6); }
+
+/* ---------- Đăng nhập / đăng ký ---------- */
+.auth-page { max-width: 420px; margin: var(--s5) auto var(--s6); }
+.auth-page form { display: grid; gap: var(--s4); margin-top: var(--s4); }
+.auth-page .button { width: 100%; }
+.auth-alt { margin: var(--s4) 0 0; font-size: 15px; }
+.auth-alt + .auth-alt { margin-top: var(--s2); }
+.check-row { display: flex; align-items: center; gap: var(--s2); margin: 0; font-weight: 400; cursor: pointer; min-height: 32px; }
+.check-row input { width: 20px; height: 20px; margin: 0; accent-color: var(--ink); flex: none; }
+.help { margin: var(--s1) 0 0; font-size: 14px; color: var(--ink-2); }
+.form-ok { color: var(--ok); min-height: 1.5em; margin: 0; font-size: 14px; }
+
+/* ---------- Tài khoản ---------- */
+.account-info { display: grid; gap: 0; max-width: 520px; margin: var(--s4) 0 var(--s6); border-top: 1px solid var(--line); }
+.account-info > div { display: grid; grid-template-columns: 140px 1fr; gap: var(--s3); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
+.account-info dt { color: var(--ink-2); font-size: 14px; }
+.account-info dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; }
+.stack-form { display: grid; gap: var(--s4); max-width: 400px; margin-bottom: var(--s3); }
+#view-account .field-note { margin-top: var(--s3); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: var(--s5); padding-top: var(--s4); }
+  .steps { grid-template-columns: 1fr; gap: var(--s4); }
+}
+@media (max-width: 560px) {
+  .public-link { display: none; }
+  .sample-cols { grid-template-columns: 1fr; }
+  .hero-actions .button { flex: 1 1 100%; }
+  .account-info > div { grid-template-columns: 1fr; gap: var(--s1); }
+}

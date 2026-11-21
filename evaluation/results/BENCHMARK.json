@@ -1,0 +1,404 @@
+{
+ "seed": 20261120,
+ "references": 137,
+ "rows": 276,
+ "results": [
+  {
+   "engine": "cosine cũ (0,08, không ràng buộc)",
+   "threshold": 0.08,
+   "validation": null,
+   "test": {
+    "precision": 0.4927536231884058,
+    "recall": 1.0,
+    "f1": 0.6601941747572816,
+    "tp": 68,
+    "fp": 70,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 1.0,
+    "neg_unrelated": 1.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "cosine + cụm 4 từ (bản trước)",
+   "threshold": 0.08,
+   "validation": null,
+   "test": {
+    "precision": 0.8395061728395061,
+    "recall": 1.0,
+    "f1": 0.912751677852349,
+    "tp": 68,
+    "fp": 13,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.22413793103448276,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=3, từ nội dung>=0",
+   "threshold": 0.23,
+   "validation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 69,
+    "fp": 0,
+    "fn": 0
+   },
+   "test": {
+    "precision": 0.9315068493150684,
+    "recall": 1.0,
+    "f1": 0.9645390070921985,
+    "tp": 68,
+    "fp": 5,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.08620689655172414,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=3, từ nội dung>=1",
+   "threshold": 0.23,
+   "validation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 69,
+    "fp": 0,
+    "fn": 0
+   },
+   "test": {
+    "precision": 0.9315068493150684,
+    "recall": 1.0,
+    "f1": 0.9645390070921985,
+    "tp": 68,
+    "fp": 5,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.08620689655172414,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=3, từ nội dung>=2",
+   "threshold": 0.23,
+   "validation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 69,
+    "fp": 0,
+    "fn": 0
+   },
+   "test": {
+    "precision": 0.9444444444444444,
+    "recall": 1.0,
+    "f1": 0.9714285714285714,
+    "tp": 68,
+    "fp": 4,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.06896551724137931,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=4, từ nội dung>=0",
+   "threshold": 0.29,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 68,
+    "fp": 0,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=4, từ nội dung>=1",
+   "threshold": 0.29,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 68,
+    "fp": 0,
+    "fn": 0
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 1.0,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=4, từ nội dung>=2",
+   "threshold": 0.29,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 0.9852941176470589,
+    "f1": 0.9925925925925926,
+    "tp": 67,
+    "fp": 0,
+    "fn": 1
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 0.9285714285714286,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=5, từ nội dung>=0",
+   "threshold": 0.16,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 0.9852941176470589,
+    "f1": 0.9925925925925926,
+    "tp": 67,
+    "fp": 0,
+    "fn": 1
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 0.9285714285714286,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=5, từ nội dung>=1",
+   "threshold": 0.16,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 0.9852941176470589,
+    "f1": 0.9925925925925926,
+    "tp": 67,
+    "fp": 0,
+    "fn": 1
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 0.9285714285714286,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  },
+  {
+   "engine": "n-gram n=5, từ nội dung>=2",
+   "threshold": 0.16,
+   "validation": {
+    "precision": 1.0,
+    "recall": 0.9855072463768116,
+    "f1": 0.9927007299270074,
+    "tp": 68,
+    "fp": 0,
+    "fn": 1
+   },
+   "test": {
+    "precision": 1.0,
+    "recall": 0.9852941176470589,
+    "f1": 0.9925925925925926,
+    "tp": 67,
+    "fp": 0,
+    "fn": 1
+   },
+   "by_category": {
+    "copy_full": 1.0,
+    "copy_half": 1.0,
+    "edit_light": 1.0,
+    "edit_heavy": 0.9285714285714286,
+    "shuffle": 1.0,
+    "neg_domain": 0.0,
+    "neg_unrelated": 0.0
+   },
+   "top1_source_accuracy": 1.0
+  }
+ ],
+ "paraphrase_pairs": {
+  "n-gram n=3, từ nội dung>=0": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=3, từ nội dung>=1": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=3, từ nội dung>=2": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=4, từ nội dung>=0": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=4, từ nội dung>=1": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=4, từ nội dung>=2": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=5, từ nội dung>=0": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=5, từ nội dung>=1": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "n-gram n=5, từ nội dung>=2": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  },
+  "cosine cũ (0,08, không ràng buộc)": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.75,
+   "same_topic": 0.375,
+   "unrelated": 0.0
+  },
+  "cosine + cụm 4 từ (bản trước)": {
+   "direct_copy": 1.0,
+   "paraphrase": 0.0,
+   "same_topic": 0.0,
+   "unrelated": 0.0
+  }
+ },
+ "headline_mae": {
+  "chunk_ratio_cosine": 0.1725652319860759,
+  "chunk_ratio_ngram": 0.04553151417008559,
+  "word_index_ngram": 0.01986382852573006
+ },
+ "speed": {
+  "corpus_chunks": 10000,
+  "queries": 150,
+  "ngram_build_s": 0.3384321500000169,
+  "ngram_search_s": 0.04769460300002493,
+  "cosine_search_s_estimated": 13.94403083333297
+ },
+ "best_ngram": "n-gram n=4, từ nội dung>=0"
+}
